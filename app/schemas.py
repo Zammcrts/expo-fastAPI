@@ -31,6 +31,6 @@ class Resumen(BaseModel):
     proyecto_id: int
     total_evaluaciones: int
     innovacion: float | None
-    vabilidad: float | None
+    viabilidad: float | None
     presentacion: float | None
     general: float | None

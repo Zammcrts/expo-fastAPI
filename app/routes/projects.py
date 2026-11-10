@@ -14,7 +14,7 @@ def crear_proyecto(datos: ProyectoIn):
 
 @router.get("", response_model=list[Proyecto])
 def listar_proyectos(
-    categoria: Categoria | None,
+    categoria: Categoria | None = None,
     limite: Annotated[int, Query(ge=1, le=100)] =10 
 ):
     return repositorio.listar_proyectos(categoria, limite)
