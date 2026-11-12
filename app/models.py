@@ -1,0 +1,28 @@
+from sqlalchemy import JSON, Column
+from sqlmodel import Field, SQLModel, Relationship
+
+from app.schemas import Categoria
+
+class proyectoDB(SQLModel, table=True):
+    __tablename__ = "proyectos"
+
+    id: int | None = Field(default=None, primary_key=True)
+    nombre: str = Field(max_length=120, unique=True, index=True)
+    equipo: list[str] = Field(sa_column=Column(JSON, nullable=False))
+    categoria:Categoria
+
+    evaluaciones: list["EvaluacionDB"] = Relationship(back_populates="proyecto", cascade_delete=True)
+
+
+class EvaluacionDB(SQLModel, table=True):
+    __tablename__ = "evaluaciones"
+
+    id: int | None = Field(default=None, primary_key=True)
+    proyecto_id: int = Field(foreign_key="proyectos.id", index=True, ondelete="CASCADE")
+    evaluador: str = Field(max_length=120)
+    innovacion:int
+    viabilidad:int
+    presentacion:int
+    comentarios: str | None = Field(default=None, max_length=500)
+
+    proyecto: proyectoDB | None = Relationship(back_populates="evaluaciones")
